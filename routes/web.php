@@ -13,4 +13,7 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
