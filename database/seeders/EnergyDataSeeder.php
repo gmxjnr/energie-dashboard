@@ -10,21 +10,31 @@ class EnergyDataSeeder extends Seeder
 {
     public function run(): void
     {
-        $startDate = Carbon::now()->subDays(30);
+        DB::table('energy_data')->truncate(); // tabel leegmaken
 
-        for ($i = 0; $i < 720; $i++) { // 24 x 30 uurmetingen
-            $datetime = $startDate->copy()->addHours($i);
-            $consumption = round(rand(200, 900) / 100, 2); // tussen 2.00 en 9.00 kWh
-            $cost = round($consumption * 0.30, 2); // 30 cent per kWh
+        $startDate = Carbon::now()->subDays(30)->startOfDay(); // 30 dagen terug
+        $endDate = Carbon::now()->endOfDay();
 
-            DB::table('energy_data')->insert([
-                'date' => $datetime->format('Y-m-d'),
-                'time' => $datetime->format('H:i:s'),
-                'consumption_kwh' => $consumption,
-                'cost_eur' => $cost,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $entries = [];
+
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+            for ($time = $date->copy()->startOfDay(); $time->lte($date->copy()->endOfDay()); $time->addMinutes(15)) {
+                $kwh = round(mt_rand(10, 150) / 100, 2); // 0.10 - 1.50 kWh
+                $cost = round($kwh * 0.35, 2); // €0.35 per kWh
+
+                $entries[] = [
+                    'date' => $date->toDateString(),
+                    'time' => $time->format('H:i:s'),
+                    'consumption_kwh' => $kwh,
+                    'cost_eur' => $cost,
+                    'created_at' => $time,
+                ];
+            }
+        }
+
+        // Beter in chunks opslaan om geheugen te besparen
+        foreach (array_chunk($entries, 1000) as $chunk) {
+            DB::table('energy_data')->insert($chunk);
         }
     }
 }
