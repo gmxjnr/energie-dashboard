@@ -45,11 +45,11 @@
     </header>
 
     <nav>
-        <a href="{{ route('dashboard.home') }}">Home</a>
-        <a href="{{ route('dashboard.analyse') }}">Analyse</a>
-        <a href="{{ route('dashboard.energiebespaar') }}">Energiebespaar</a>
-        <a href="{{ route('dashboard.instellingen') }}">Instellingen</a>
-    </nav>
+    <a href="{{ route('dashboard.home') }}">Home</a>
+    <a href="{{ route('dashboard.analyse') }}">Analyse</a>
+    <a href="{{ route('dashboard.energiebespaar') }}">Energiebespaar</a>
+    <a href="{{ route('settings.edit') }}">Instellingen</a>
+</nav>
 
     <main>
         @yield('content')

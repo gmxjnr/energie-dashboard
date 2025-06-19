@@ -3,14 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SettingsController;
 
-// Startpagina: laad dashboard.home via HomeController
-Route::get('/', [HomeController::class, 'index'])->name('dashboard.home');
+// AUTH ROUTES
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Andere dashboard pagina's
-Route::get('/analyse', [DashboardController::class, 'analyse'])->name('dashboard.analyse');
-Route::get('/energiebespaar', [DashboardController::class, 'energiebespaar'])->name('dashboard.energiebespaar');
-Route::get('/instellingen', [DashboardController::class, 'instellingen'])->name('dashboard.instellingen');
+// DASHBOARD EN INSTELLINGEN (alleen voor ingelogde gebruikers)
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard.home');
+    Route::get('/analyse', [DashboardController::class, 'analyse'])->name('dashboard.analyse');
+    Route::get('/energiebespaar', [DashboardController::class, 'energiebespaar'])->name('dashboard.energiebespaar');
 
-// Optioneel: extra route voor directe toegang tot /dashboard/home
-Route::get('/dashboard/home', [HomeController::class, 'index']);
+    // Instellingen routes
+    Route::get('/instellingen', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::post('/instellingen', [SettingsController::class, 'update'])->name('settings.update');
+});
