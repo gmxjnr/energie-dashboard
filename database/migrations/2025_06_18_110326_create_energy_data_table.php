@@ -13,6 +13,12 @@ return new class extends Migration {
             $table->time('time'); // Tijdstip
             $table->float('consumption_kwh'); // Verbruik in kWh
             $table->float('cost_eur'); // Kosten in euro's
+
+            // Toegevoegde kolommen
+            $table->float('stored_energy_kwh')->default(0);   // opgeslagen energie in kWh
+            $table->float('active_power_kwh')->default(0);    // huidig actief vermogen in W
+            $table->float('peak_power_kwh')->default(0);      // piekverbruik in kWh
+
             $table->timestamps();
         });
     }
