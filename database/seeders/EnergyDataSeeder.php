@@ -27,12 +27,15 @@ class EnergyDataSeeder extends Seeder
                     'time' => $time->format('H:i:s'),
                     'consumption_kwh' => $kwh,
                     'cost_eur' => $cost,
+                    'stored_energy_kwh' => round(mt_rand(0, 50) / 10, 1),   // 0.0 - 5.0 kWh
+                    'active_power_kwh' => round(mt_rand(200, 2000)),       // 200 - 2000 W
+                    'peak_power_kwh' => round(mt_rand(50, 150) / 100, 2),  // 0.50 - 1.50 kWh
                     'created_at' => $time,
                 ];
             }
         }
 
-        // Beter in chunks opslaan om geheugen te besparen
+        // In chunks opslaan
         foreach (array_chunk($entries, 1000) as $chunk) {
             DB::table('energy_data')->insert($chunk);
         }
