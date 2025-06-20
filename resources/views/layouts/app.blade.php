@@ -4,47 +4,53 @@
     <meta charset="UTF-8">
     <title>Smart Energy Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 0 20px;
-        }
-        header {
-            background-color: #0c2d57;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        nav {
-            margin-bottom: 15px;
-        }
-        nav a, nav form button {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #0c2d57;
-            font-weight: 600;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        nav a:hover, nav form button:hover {
-            text-decoration: underline;
-        }
-        main {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-            min-height: 60vh;
-        }
-        nav form {
-            display: inline;
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #1e3a8a;
+        color: white;
+        padding: 1.5rem 0;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #1e3a8a;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
+
+    nav a:hover {
+        color: #2563eb;
+        text-decoration: underline;
+    }
+
+    main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+</style>
 </head>
 <body>
     <header>
