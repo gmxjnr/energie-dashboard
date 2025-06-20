@@ -21,13 +21,17 @@
         nav {
             margin-bottom: 15px;
         }
-        nav a {
+        nav a, nav form button {
             margin-right: 15px;
             text-decoration: none;
             color: #0c2d57;
             font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
         }
-        nav a:hover {
+        nav a:hover, nav form button:hover {
             text-decoration: underline;
         }
         main {
@@ -37,6 +41,9 @@
             box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
             min-height: 60vh;
         }
+        nav form {
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -45,15 +52,28 @@
     </header>
 
     <nav>
-        <a href="{{ route('dashboard.home') }}">Home</a>
-        <a href="{{ route('dashboard.analyse') }}">Analyse</a>
-        <a href="{{ route('dashboard.energiebespaar') }}">Energiebespaar</a>
-        <a href="{{ route('dashboard.instellingen') }}">Instellingen</a>
+        @auth
+            <a href="{{ route('dashboard.home') }}">Home</a>
+            <a href="{{ route('dashboard.analyse') }}">Analyse</a>
+            <a href="{{ route('dashboard.energiebespaar') }}">Energiebespaar</a>
+            <a href="{{ route('dashboard.instellingen') }}">Instellingen</a>
+            <form action="{{ route('auth.logout') }}" method="POST">
+                @csrf
+                <button type="submit">Uitloggen</button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}">Inloggen</a>
+            <a href="{{ route('auth.register.show') }}">Registreren</a>
+        @endguest
+
     </nav>
 
     <main>
         @yield('content')
     </main>
+
     @stack('scripts')
 </body>
 </html>
