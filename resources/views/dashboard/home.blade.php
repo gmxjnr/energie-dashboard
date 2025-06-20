@@ -1,64 +1,132 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="dashboard-container">
-    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 2rem;">Energie Dashboard</h1>
+<style>
+    .dashboard-container {
+        padding: 2rem;
+        font-family: 'Inter', sans-serif;
+    }
 
-    <!-- Grafieken naast elkaar -->
-    <div class="chart-row" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
-        <!-- Verbruik -->
-        <div class="chart-card" style="flex: 1; min-width: 300px;">
-            <h2 style="margin-bottom: 1rem;">Verbruik Vandaag (kWh)</h2>
-            <div class="chart-container" style="height: 300px;">
+    .chart-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: space-between;
+    }
+
+    .chart-card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        flex: 1;
+        min-width: 300px;
+        transition: transform 0.2s ease;
+    }
+
+    .chart-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .statistiek-section {
+        margin-top: 3rem;
+    }
+
+    .kaart-grid {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        background-color: #f9fafb;
+        padding: 2rem;
+        border-radius: 1rem;
+    }
+
+    .stat-block {
+        flex: 1;
+        text-align: center;
+        min-width: 200px;
+    }
+
+    .stat-block div:first-child {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-block div:last-child {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .select-box {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        font-size: 1rem;
+    }
+
+</style>
+
+<div class="dashboard-container">
+    <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 2rem;">⚡ Energie Dashboard</h1>
+
+    <!-- Grafieken -->
+    <div class="chart-row">
+        <div class="chart-card">
+            <h2 style="margin-bottom: 1rem;">📊 Verbruik Vandaag (kWh)</h2>
+            <div class="chart-container">
                 <canvas id="verbruikChart"></canvas>
             </div>
         </div>
 
-        <!-- Kosten -->
-        <div class="chart-card" style="flex: 1; min-width: 300px;">
-            <h2 style="margin-bottom: 1rem;">Kosten Vandaag (€)</h2>
-            <div class="chart-container" style="height: 300px;">
+        <div class="chart-card">
+            <h2 style="margin-bottom: 1rem;">💶 Kosten Vandaag (€)</h2>
+            <div class="chart-container">
                 <canvas id="kostenChart"></canvas>
             </div>
         </div>
 
-        <!-- Doel -->
-        <div class="chart-card" style="flex: 1; min-width: 300px;">
-            <h2 style="margin-bottom: 1rem;">Live Verbuik</h2>
-            <div class="chart-container" style="height: 300px;">
+        <div class="chart-card">
+            <h2 style="margin-bottom: 1rem;">🔄 Live Verbruik</h2>
+            <div class="chart-container">
                 <canvas id="doelChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Statistieken Periode -->
-    <div class="statistiek-section" style="margin-top: 3rem;">
-        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 1rem;">Inzicht per periode</h2>
-        <select class="select-box" id="periodeSelect" style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;">
+    <!-- Periodeselectie -->
+    <div class="statistiek-section">
+        <h2 style="font-size: 22px; font-weight: bold;">📆 Inzicht per Periode</h2>
+        <select class="select-box" id="periodeSelect">
             <option value="dag">Dag</option>
             <option value="week">Week</option>
             <option value="maand">Maand</option>
         </select>
 
-        <!-- Verbruiksoverzicht -->
+        <!-- Statistieken -->
         <div id="statistieken" style="margin-top: 2rem;">
-            <h3 style="text-align: center; margin-bottom: 1rem; font-weight: bold;">Verbruiksoverzicht</h3>
-            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; background-color: #f8fafc; padding: 1.5rem; border-radius: 8px;">
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-weight: 600;">Actief verbruik:</div>
-                    <div id="actiefVerbruik" style="font-size: 1.25rem;">-</div>
+            <h3 style="text-align: center; font-weight: bold; margin-bottom: 1rem;">📈 Verbruiksoverzicht</h3>
+            <div class="kaart-grid">
+                <div class="stat-block">
+                    <div>Actief verbruik:</div>
+                    <div id="actiefVerbruik">-</div>
                 </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-weight: 600;">Opgeslagen energie:</div>
-                    <div id="opgeslagenEnergie" style="font-size: 1.25rem;">-</div>
+                <div class="stat-block">
+                    <div>Opgeslagen energie:</div>
+                    <div id="opgeslagenEnergie">-</div>
                 </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-weight: 600;">Totale verbruik vandaag:</div>
-                    <div id="totaalVerbruik" style="font-size: 1.25rem;">-</div>
+                <div class="stat-block">
+                    <div>Totale verbruik vandaag:</div>
+                    <div id="totaalVerbruik">-</div>
                 </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-weight: 600;">Piekverbruik:</div>
-                    <div id="piekverbruik" style="font-size: 1.25rem;">-</div>
+                <div class="stat-block">
+                    <div>Piekverbruik:</div>
+                    <div id="piekverbruik">-</div>
                 </div>
             </div>
         </div>
@@ -99,37 +167,24 @@
             x: {
                 ticks: {
                     color: '#555',
-                    font: {
-                        size: 12
-                    },
+                    font: { size: 12 },
                     autoSkip: true,
                     maxTicksLimit: 10
                 },
-                grid: {
-                    color: '#eee'
-                }
+                grid: { color: '#eee' }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
                     color: '#555',
-                    font: {
-                        size: 12
-                    }
+                    font: { size: 12 }
                 },
-                grid: {
-                    color: '#eee'
-                }
+                grid: { color: '#eee' }
             }
         },
         elements: {
-            point: {
-                radius: 0
-            },
-            line: {
-                tension: 0.4,
-                borderWidth: 2
-            }
+            point: { radius: 0 },
+            line: { tension: 0.4, borderWidth: 2 }
         }
     };
 
@@ -175,7 +230,7 @@
         options: chartOptions
     });
 
-    // === LIVE Donut Chart Update ===
+    // Donut Chart (Live verbruik)
     const doelCtx = document.getElementById('doelChart').getContext('2d');
     const doelChart = new Chart(doelCtx, {
         type: 'doughnut',
@@ -194,9 +249,7 @@
                     position: 'bottom',
                     labels: {
                         color: '#333',
-                        font: {
-                            size: 14
-                        }
+                        font: { size: 14 }
                     }
                 }
             }
@@ -207,7 +260,7 @@
         fetch('/api/progress')
             .then(res => res.json())
             .then(data => {
-                const gebruikt = data.percentage;
+                const gebruikt = data.percentage ?? 0;
                 const resterend = 100 - gebruikt;
 
                 doelChart.data.datasets[0].data = [gebruikt, resterend];
@@ -215,11 +268,10 @@
             });
     }
 
-    // Initieel en vervolgens elke 5 seconden
     updateDoelChart();
-    setInterval(updateDoelChart, 500);
+    setInterval(updateDoelChart, 5000);
 
-    // Periode select
+    // Periode select gedrag
     document.getElementById('periodeSelect').addEventListener('change', function () {
         const periode = this.value;
         fetch(`/inzicht/${periode}`)
@@ -241,7 +293,6 @@
             });
     });
 
-    // Initieel laden
     document.getElementById('periodeSelect').dispatchEvent(new Event('change'));
 </script>
 @endpush
