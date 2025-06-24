@@ -242,6 +242,8 @@
             }]
         },
         options: {
+            ...chartOptions,
+            cutout: '70%' 
             responsive: true,
             cutout: '70%',
             plugins: {
