@@ -12,11 +12,11 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-    // Login routes
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login'); // Laravel verwacht 'login'
+    // Login
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
-    // Register routes
+    // Register
     Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.register.show');
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 });
@@ -27,17 +27,22 @@ Route::middleware('guest')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-    // Dashboard en subpagina's
+    // Navigatie items
     Route::get('/', [HomeController::class, 'index'])->name('dashboard.home');
     Route::get('/analyse', [DashboardController::class, 'analyse'])->name('dashboard.analyse');
     Route::get('/energiebespaar', [DashboardController::class, 'energiebespaar'])->name('dashboard.energiebespaar');
     Route::get('/instellingen', [DashboardController::class, 'instellingen'])->name('dashboard.instellingen');
+
+    // Data ophalen
     Route::get('/inzicht/{periode}', [DashboardController::class, 'inzichtData']);
-    Route::get('/dashboard/home', [HomeController::class, 'index']);
 
     // API
     Route::get('/api/progress', [ProgressController::class, 'get']);
 
+    // Home fallback
+    Route::get('/dashboard/home', [HomeController::class, 'index']);
+
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
+  
