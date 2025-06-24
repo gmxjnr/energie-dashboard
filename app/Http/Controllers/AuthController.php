@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-
+ 
     // Login verwerkingslogica
     public function login(Request $request)
     {

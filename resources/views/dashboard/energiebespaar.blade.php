@@ -39,9 +39,9 @@
         </div>
         <div class="card-body">
             <ul>
-                <li><strong>Slim Wassen</strong>: Bespaar 10% op warm water. <button class="btn btn-sm btn-primary">Bekijk</button></li>
-                <li><strong>LED-Actie</strong>: Ontvang korting op LED-lampen. <button class="btn btn-sm btn-primary">Meedoen</button></li>
-                <li><strong>Eco Thermostaat</strong>: Leer slimmer verwarmen. <button class="btn btn-sm btn-primary">Start</button></li>
+                <li><strong>Slim Wassen</strong>: Bespaar 10% op warm water.
+                <li><strong>LED-Actie</strong>: Ontvang korting op LED-lampen. 
+                <li><strong>Eco Thermostaat</strong>: Leer slimmer verwarmen. 
             </ul>
         </div>
     </div>
@@ -57,19 +57,7 @@
         </div>
     </div>
 
-    <!-- Tevredenheidsfeedback -->
-    <div class="card shadow-sm mt-5 mb-5">
-        <div class="card-header bg-secondary text-white">
-            <h5 class="mb-0">Wat vind jij van je energiebesparing?</h5>
-        </div>
-        <div class="card-body">
-            <form>
-                <label for="feedback">Jouw mening:</label><br>
-                <textarea id="feedback" class="form-control" rows="3" placeholder="Laat hier je feedback achter..."></textarea><br>
-                <button class="btn btn-success">Verzenden</button>
-            </form>
-        </div>
-    </div>
+  
 @endsection
 
 @push('scripts')
