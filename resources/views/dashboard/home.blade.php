@@ -108,7 +108,7 @@
         },
         options: {
             ...chartOptions,
-            cutout: '70%'
+            cutout: '70%' 
         }
     });
 </script>
