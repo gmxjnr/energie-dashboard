@@ -63,7 +63,7 @@
                 labels: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], color: '#2196F3'
             },
             {
-                id: 'usersChart', label: 'Users', data: [2, 3, 4, 3, 5, 6, 5],
+                id: 'usersChart', label: 'Users', data: [20, 108, 204, 503, 205, 150, 5],
                 labels: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], color: '#9C27B0'
             },
             {
