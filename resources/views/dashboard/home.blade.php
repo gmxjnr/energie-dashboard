@@ -69,13 +69,11 @@
         border: 1px solid #cbd5e1;
         font-size: 1rem;
     }
-
 </style>
 
 <div class="dashboard-container">
     <h1 style="font-size: 28px; font-weight: bold; margin-bottom: 2rem;">⚡ Energie Dashboard</h1>
 
-    <!-- Grafieken -->
     <div class="chart-row">
         <div class="chart-card">
             <h2 style="margin-bottom: 1rem;">📊 Verbruik Vandaag (kWh)</h2>
@@ -99,7 +97,6 @@
         </div>
     </div>
 
-    <!-- Periodeselectie -->
     <div class="statistiek-section">
         <h2 style="font-size: 22px; font-weight: bold;">📆 Inzicht per Periode</h2>
         <select class="select-box" id="periodeSelect">
@@ -108,7 +105,6 @@
             <option value="maand">Maand</option>
         </select>
 
-        <!-- Statistieken -->
         <div id="statistieken" style="margin-top: 2rem;">
             <h3 style="text-align: center; font-weight: bold; margin-bottom: 1rem;">📈 Verbruiksoverzicht</h3>
             <div class="kaart-grid">
@@ -149,10 +145,7 @@
                 display: true,
                 labels: {
                     color: '#333',
-                    font: {
-                        size: 14,
-                        weight: 'bold'
-                    }
+                    font: { size: 14, weight: 'bold' }
                 }
             },
             tooltip: {
@@ -188,7 +181,6 @@
         }
     };
 
-    // Verbruik Chart
     const verbruikCtx = document.getElementById('verbruikChart').getContext('2d');
     const verbruikGradient = verbruikCtx.createLinearGradient(0, 0, 0, 400);
     verbruikGradient.addColorStop(0, 'rgba(76, 175, 80, 0.4)');
@@ -209,7 +201,6 @@
         options: chartOptions
     });
 
-    // Kosten Chart
     const kostenCtx = document.getElementById('kostenChart').getContext('2d');
     const kostenGradient = kostenCtx.createLinearGradient(0, 0, 0, 400);
     kostenGradient.addColorStop(0, 'rgba(25, 118, 210, 0.4)');
@@ -230,7 +221,6 @@
         options: chartOptions
     });
 
-    // Donut Chart (Live verbruik)
     const doelCtx = document.getElementById('doelChart').getContext('2d');
     const doelChart = new Chart(doelCtx, {
         type: 'doughnut',
@@ -242,8 +232,6 @@
             }]
         },
         options: {
-            ...chartOptions,
-            cutout: '70%' 
             responsive: true,
             cutout: '70%',
             plugins: {
@@ -264,7 +252,6 @@
             .then(data => {
                 const gebruikt = data.percentage ?? 0;
                 const resterend = 100 - gebruikt;
-
                 doelChart.data.datasets[0].data = [gebruikt, resterend];
                 doelChart.update();
             });
@@ -273,25 +260,24 @@
     updateDoelChart();
     setInterval(updateDoelChart, 5000);
 
-    // Periode select gedrag
     document.getElementById('periodeSelect').addEventListener('change', function () {
         const periode = this.value;
         fetch(`/inzicht/${periode}`)
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 if (data.error) {
                     document.getElementById('statistieken').innerHTML = `<p style="color: red;">${data.error}</p>`;
                     return;
                 }
 
-                document.getElementById('actiefVerbruik').textContent = data.actief_verbruik ? `${data.actief_verbruik} W` : '0 W';
-                document.getElementById('opgeslagenEnergie').textContent = data.opgeslagen_energie ? `${data.opgeslagen_energie} kWh` : '0 kWh';
-                document.getElementById('totaalVerbruik').textContent = data.totaal_verbruik ? `${data.totaal_verbruik} kWh` : '0 kWh';
+                document.getElementById('actiefVerbruik').textContent = `${data.actief_verbruik ?? 0} W`;
+                document.getElementById('opgeslagenEnergie').textContent = `${data.opgeslagen_energie ?? 0} kWh`;
+                document.getElementById('totaalVerbruik').textContent = `${data.totaal_verbruik ?? 0} kWh`;
                 document.getElementById('piekverbruik').textContent = data.piekverbruik ? `${data.piekverbruik.tijd} - ${data.piekverbruik.waarde} kWh` : 'Geen piek';
             })
-            .catch(error => {
+            .catch(err => {
+                console.error(err);
                 document.getElementById('statistieken').innerHTML = `<p style="color: red;">Fout bij ophalen data.</p>`;
-                console.error(error);
             });
     });
 
