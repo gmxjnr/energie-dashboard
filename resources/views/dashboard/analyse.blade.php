@@ -48,8 +48,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const chartsConfig = [
+    document.addEventListener('DOMContentLoaded', function () { // Wait for the DOM to be fully loaded before executing the script
+        const chartsConfig = [ // Configuration for each chart
             {
                 id: 'conversionsChart', label: 'Conversions', data: [5, 8, 6, 7, 9, 10, 4],
                 labels: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], color: '#FF5722'
@@ -80,35 +80,35 @@
             }
         ];
 
-        function createLineChart(id, label, data, labels, color) {
-            const ctx = document.getElementById(id);
-            if (!ctx) return;
+        function createLineChart(id, label, data, labels, color) { // Function to create a line chart
+            const ctx = document.getElementById(id); // Get the canvas context by ID
+            if (!ctx) return; // Check if the canvas element exists
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: label,
-                        data: data,
+            new Chart(ctx, { // Create a new Chart instance
+                type: 'line', // Specify the chart type
+                data: { // Data for the chart
+                    labels: labels, 
+                    datasets: [{ 
+                        label: label, 
+                        data: data, 
                         borderColor: color,
                         backgroundColor: color + '33',
                         tension: 0.4,
                         fill: true
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { ticks: { autoSkip: true, maxTicksLimit: 10 } }
+                options: { // Options for the chart
+                    responsive: true, // Make the chart responsive
+                    maintainAspectRatio: false, // Maintain aspect ratio
+                    scales: { // Configure the scales
+                        x: { ticks: { autoSkip: true, maxTicksLimit: 10 } } // X-axis settings
                     }
                 }
             });
         }
 
-        chartsConfig.forEach(chart => {
-            createLineChart(chart.id, chart.label, chart.data, chart.labels, chart.color);
+        chartsConfig.forEach(chart => { // Iterate over each chart configuration
+            createLineChart(chart.id, chart.label, chart.data, chart.labels, chart.color); // Create the chart
         });
     });
 </script>
